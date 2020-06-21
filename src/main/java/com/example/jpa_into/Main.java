@@ -14,8 +14,7 @@ public class Main implements CommandLineRunner {
     @Autowired  // wstrzykiwanie zależności - spring tworzy obiekt wstrzykiwanej klasy w momencie gdy jest taka potrzeba
     private AutoRepository autoRepository;
 
-    @Override
-    public void run(String... args) throws Exception {
+    public void crudOperations(){
         // INSERT
 //        autoRepository.save(new Auto("BMW", "5", 200_000.));
 //        autoRepository.save(new Auto("Audi", "A3", 120_000.));
@@ -36,10 +35,19 @@ public class Main implements CommandLineRunner {
         Auto autoToUpdate = autoRepository.findById(3).get();
         autoToUpdate.setPrice(autoToUpdate.getPrice() * 0.9);
         autoRepository.save(autoToUpdate);
+        System.out.println("DELETE FROM Auto WHERE price = (SELECT max(price) FROM Auto)");
+        Auto mostExpAuto = autoRepository.findAll(Sort.by(Sort.Direction.DESC, "price")).get(0);
+        autoRepository.delete(mostExpAuto);
         System.out.println("SELECT * FROM Auto");
         autoRepository.findAll().forEach(System.out::println);
-
-
-
+    }
+    public void jpaOperations(){
+        System.out.println("SELECT * FROM Auto WHERE price between 100_000 AND 200_000");
+        
+    }
+    @Override
+    public void run(String... args) throws Exception {
+//        crudOperations();
+        jpaOperations();
     }
 }
