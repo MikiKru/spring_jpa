@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component      // spring zarządza tą klasą w kontenerze
 public class Main implements CommandLineRunner {
     @Autowired  // wstrzykiwanie zależności - spring tworzy obiekt wstrzykiwanej klasy w momencie gdy jest taka potrzeba
@@ -27,6 +29,9 @@ public class Main implements CommandLineRunner {
         autoRepository.findAll().forEach(System.out::println);
         System.out.println("SELECT * FROM Auto ORDER BY price DESC");
         autoRepository.findAll(Sort.by(Sort.Direction.DESC, "price")).forEach(System.out::println);
+        System.out.println("SELECT * FROM Auto WHERE autoId = ?");
+        Optional<Auto> autoOpt = autoRepository.findById(3);
+        autoOpt.ifPresent(System.out::println);
 
     }
 }
