@@ -44,6 +44,10 @@ public class Main implements CommandLineRunner {
     public void jpaOperations(){
         System.out.println("SELECT * FROM Auto WHERE price between 100_000 AND 200_000");
         autoRepository.findAllByPriceBetween(100_000, 200_000).forEach(System.out::println);
+        System.out.println("SELECT * FROM Auto WHERE brand like ?");
+        autoRepository.findAllByBrandLike("%o%").forEach(System.out::println);
+        System.out.println("SELECT * FROM Auto WHERE brand like ? AND price between ? AND ?");
+        autoRepository.findAllByBrandLikeAndPriceBetween("%a%", 0, 150_000).forEach(System.out::println);
     }
     @Override
     public void run(String... args) throws Exception {
