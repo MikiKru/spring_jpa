@@ -32,6 +32,14 @@ public class Main implements CommandLineRunner {
         System.out.println("SELECT * FROM Auto WHERE autoId = ?");
         Optional<Auto> autoOpt = autoRepository.findById(3);
         autoOpt.ifPresent(System.out::println);
+        System.out.println("UPDATE Auto SET price = price * 0.9 WHERE autiId = ?");
+        Auto autoToUpdate = autoRepository.findById(3).get();
+        autoToUpdate.setPrice(autoToUpdate.getPrice() * 0.9);
+        autoRepository.save(autoToUpdate);
+        System.out.println("SELECT * FROM Auto");
+        autoRepository.findAll().forEach(System.out::println);
+
+
 
     }
 }
