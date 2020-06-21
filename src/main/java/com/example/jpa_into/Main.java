@@ -48,8 +48,12 @@ public class Main implements CommandLineRunner {
         autoRepository.findAllByBrandLike("%o%").forEach(System.out::println);
         System.out.println("SELECT * FROM Auto WHERE brand like ? AND price between ? AND ?");
         autoRepository.findAllByBrandLikeAndPriceBetween("%a%", 0, 150_000).forEach(System.out::println);
-        System.out.println("SELECT * FROM Auto a1 WHERE length(concat(a1.brand, a1.model)) = (SELECT max(length(concat(a2.brand, a2.model))) FROM Auto a2)");
+        System.out.println("SELECT * FROM Auto a1 WHERE length(concat(a1.brand, a1.model)) = " +
+                "(SELECT max(length(concat(a2.brand, a2.model))) FROM Auto a2)");
         System.out.println(autoRepository.getMaxLengthBrandAndModel());
+        System.out.println("UPDATE Auto a SET a.price = a.price * 1.1");
+        autoRepository.updateAllPrices();
+        autoRepository.findAll().forEach(System.out::println);
     }
     @Override
     public void run(String... args) throws Exception {
